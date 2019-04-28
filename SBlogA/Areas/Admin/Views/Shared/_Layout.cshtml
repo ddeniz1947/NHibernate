@@ -1,0 +1,48 @@
+﻿@using System.Web.Optimization
+@{ 
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Blog Admin</title>
+    @Styles.Render("~/admin/styles");
+   
+</head>
+<body>
+
+    @helper SelectedTabClass(string tabName)
+    { 
+     if(tabName == ViewBag.SelectedTab)
+     {
+        @:active
+     }
+    }
+    <div class="container">
+        <ul class="nav nav-pills">
+            <li class="@SelectedTabClass("posts")">
+                @Html.ActionLink("Posts List", "Index", "Posts", new { area = "Admin" }, "")
+            </li>
+            <li class="@SelectedTabClass("users")">
+                @Html.ActionLink("Users List", "Index", "Users", new { area = "Admin" }, "")
+            </li>
+         
+            <li class=" ">
+                @Html.RouteLink("Back To Home Page", "Home")
+            </li>
+        </ul>
+        @RenderBody()
+    </div>
+   
+
+
+    <h1>This is the admin</h1>
+   
+    @RenderSection("Scripts", false)
+
+
+</body>
+</html>
