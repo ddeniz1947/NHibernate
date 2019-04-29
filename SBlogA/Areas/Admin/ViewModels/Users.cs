@@ -31,4 +31,12 @@ namespace SBlogA.Areas.Admin.ViewModels
         [Required, MaxLength(128)]
         public string Username { get; set; }
     }
+
+    public class UsersResetPassword
+    {
+        public string Username { get; set; }
+
+        [Required,DataType(DataType.Password)]
+        public string Password { get; set; }
+    }
 }

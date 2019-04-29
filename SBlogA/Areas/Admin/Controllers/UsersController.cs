@@ -13,7 +13,7 @@ using System.Web.Mvc;
 namespace SBlogA.Areas.Admin.Controllers
 {
     [Authorize(Roles = "admin")]
-    
+
     public class UsersController : Controller
     {
         // GET: Admin/Users
@@ -33,13 +33,13 @@ namespace SBlogA.Areas.Admin.Controllers
             {
             });
         }
-        
+
         [HttpPost]
         public ActionResult New(UsersNew formData)
         {
             if (Database.Session.Query<User>().Any(x => x.Username == formData.Username))
                 ModelState.AddModelError("Username", "Username Must Be Unique");
-            
+
             if (!ModelState.IsValid)
                 return View(formData);
 
@@ -59,7 +59,7 @@ namespace SBlogA.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var user = Database.Session.Load<User>(id);
-            if(user == null)
+            if (user == null)
             {
                 return HttpNotFound();
             }
@@ -71,27 +71,42 @@ namespace SBlogA.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(int id,UsersEdit form)
+        public ActionResult Edit(int id, UsersEdit form)
         {
-          //  Database.OpenSession();
+            //  Database.OpenSession();
 
-                var user = Database.Session.Load<User>(id);
-                if (user == null)
-                {
-                    return HttpNotFound();
-                }
-                if (Database.Session.Query<User>().Any(u => u.Username == form.Username && u.Id != id))
-                    ModelState.AddModelError("Username", "Username must be unique");
-                if (!ModelState.IsValid)
-                    return View(form);
-                user.Username = form.Username;
-                user.Email = form.Email;
-                Database.Session.SaveOrUpdate(user);
-                //Database.Session.SaveOrUpdate(user);
-                return RedirectToAction("index");
-            
-            
-            
+            var user = Database.Session.Load<User>(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            if (Database.Session.Query<User>().Any(u => u.Username == form.Username && u.Id != id))
+                ModelState.AddModelError("Username", "Username must be unique");
+            if (!ModelState.IsValid)
+                return View(form);
+            user.Username = form.Username;
+            user.Email = form.Email;
+            //Database.Session.SaveOrUpdate(user);
+            Database.Session.Update(user);
+
+            return RedirectToAction("index");
+
+
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            var user = Database.Session.Load<User>(id);
+            if(user == null)
+            {
+                return HttpNotFound();
+
+            }
+            Database.Session.Delete(user);
+            return RedirectToAction("index");
+
         }
         
     }

@@ -20,7 +20,15 @@ namespace SBlogA.App_Start
                 .Include("~/content/css/bootstrap.css")
                 .Include("~/content/css/site.css")
             );
+            bundles.Add(new ScriptBundle("~/admin/scripts")
+                .Include("~/scripts/jquery-2.0.3.js")
+                .Include("~/scripts/jquery.validate.js")
+                .Include("~/scripts/jquery.validate.unobtrusive.js")
+                .Include("~/scripts/bootstrap.js")
+                .Include("~/areas/admin/scripts/forms.js")
+                );
 
+            
 
         }
 

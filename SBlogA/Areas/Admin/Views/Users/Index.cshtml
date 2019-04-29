@@ -1,5 +1,4 @@
 ﻿@model SBlogA.Areas.Admin.ViewModels.UsersIndex
-
 <div class="btn-toolbar">
     <a href="@Url.Action("new")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-plus"></i>Create User</a>
 </div>
@@ -28,14 +27,34 @@
                 <i class="glyphicon glyphicon-edit"></i>
                 Edit
                 </a>
-                <a href="#" class="btn btn-xs btn-primary">
+                <a href="@Url.Action("resetpassword",new { user.Id })" class="btn btn-xs btn-primary">
                 <i class="glyphicon glyphicon-lock"></i>
                 Reset Password
                 </a>
-                <a href="#" class="btn btn-xs btn-primary">
-                <i class="glyphicon glyphicon-remove" ></i>
-                Delete
+                <a src="~/Areas/Admin/Scripts/Forms.js" class="btn btn-xs btn-primary" data-post="Are You sure you want to delete @user.Username?">
+                    <i class="glyphicon glyphicon-remove"></i>
+          <script src="@Url.Content("~/Areas/Admin/Scripts/Forms.js")" data-post="Are You sure you want to delete @user.Username?">
+                     $(document).ready(function () {
+        $("a[data-post]").click(function (e) {
+            e.preventDefault();
+
+            var $this = $(this);
+            var message = $this.data("post");
+
+            if (message && !confirm(message))
+                return;
+            $("<form>")
+                .attr("method", "post")
+                .attr("action", $this.attr("href"))
+                .appendTo(document.body)
+                .submit();
+        });
+    });
+
+                    </script>
+                    Delete
                 </a>
+              
             </div>
             </td>
         </tr>
